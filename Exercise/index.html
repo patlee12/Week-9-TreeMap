@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+  <head>
+    <meta charset="utf-8" />
+    <script src="libs/echarts.min.js"></script>
+    <title>Activity: E-Charts Week 9</title>
+    <script src="../js/d3.js"></script>
+  </head>
+  <body style="height: 100%; margin: 0">
+    <div id="container" style="height: 100%"></div>
+    <script type="text/javascript">
+      //Original set
+      let Data = [
+        { parentColumn: "Parent", childColumn: "A" },
+        { parentColumn: "A", childColumn: "B" },
+        { parentColumn: "A", childColumn: "C" },
+        { parentColumn: "B", childColumn: "D", val: 30 },
+        { parentColumn: "B", childColumn: "E", val: 50 },
+        { parentColumn: "C", childColumn: "F", val: 20 },
+        { parentColumn: "C", childColumn: "G", val: 40 },
+        { parentColumn: "C", childColumn: "H", val: 60 },
+      ];
+
+      //Manually formated data (recursive is below)
+
+      let manualData = [
+        { name: "Parent", children: [{ name: "A" }] },
+        { name: "A", children: [{ name: "B" }, { name: "C" }] },
+        {
+          name: "B",
+          children: [
+            { name: "D", value: 30 },
+            { name: "E", value: 50 },
+          ],
+        },
+        {
+          name: "C",
+          children: [
+            { name: "F", value: 20 },
+            { name: "G", value: 40 },
+            { name: "H", value: 60 },
+          ],
+        },
+      ];
+
+      //Initialize formatData to recursively format array with parent objects
+      let formatData = [];
+      let parents = [];
+
+      Data.forEach((parent) => {
+        if (parents.indexOf(parent.parentColumn) == -1) {
+          parents.push(parent.parentColumn);
+          formatData.push({
+            name: parent.parentColumn,
+            children: [],
+          });
+        }
+      });
+
+      //Add children to parent objects
+      Data.forEach((set) => {
+        formatData.forEach((parent) => {
+          if (parent.name == set.parentColumn) {
+            parent.children.push({
+              name: set.childColumn,
+              value: set.val != undefined ? set.val : 0,
+            });
+          }
+        });
+      });
+
+      console.log("Recursive Array:");
+      console.log(formatData);
+
+      console.log("Manually Formatted:");
+      console.log(manualData);
+
+      let container = document.getElementById("container"); // select container
+      let treeMap = echarts.init(container); // initiate echarts object
+      treeMap.setOption(
+        {
+          title: {
+            text: "Treemap Visualization Week 9",
+            textStyle: {
+              fontSize: 35,
+            },
+          },
+          // define type of visualization
+          series: {
+            type: "treemap", // visualization type
+            data: formatData, // data
+            itemStyle: {
+              borderColor: "black",
+              borderWidth: 1.5,
+            },
+            levels: [
+              {
+                itemStyle: {
+                  borderWidth: 3,
+                  borderColor: "black",
+                  gapWidth: 3,
+                },
+              },
+              {
+                color: ["#942e38", "#aaa", "#1f9944"],
+                colorMappingBy: "value",
+                itemStyle: {
+                  gapWidth: 1,
+                },
+              },
+            ],
+          },
+        },
+        true
+      );
+    </script>
+  </body>
+</html>
