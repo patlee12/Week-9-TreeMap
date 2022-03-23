@@ -11,9 +11,9 @@
     <script type="text/javascript">
       //Original set
       let Data = [
-        { parentColumn: "Parent", childColumn: "A" },
-        { parentColumn: "A", childColumn: "B" },
-        { parentColumn: "A", childColumn: "C" },
+        { parentColumn: "Root", childColumn: "A", val: 200 },
+        { parentColumn: "A", childColumn: "B", val: 80 },
+        { parentColumn: "A", childColumn: "C", val: 70 },
         { parentColumn: "B", childColumn: "D", val: 30 },
         { parentColumn: "B", childColumn: "E", val: 50 },
         { parentColumn: "C", childColumn: "F", val: 20 },
@@ -24,7 +24,7 @@
       //Manually formated data (recursive is below)
 
       let manualData = [
-        { name: "Parent", children: [{ name: "A" }] },
+        { name: "Root", children: [{ name: "A" }] },
         { name: "A", children: [{ name: "B" }, { name: "C" }] },
         {
           name: "B",
@@ -96,16 +96,56 @@
             levels: [
               {
                 itemStyle: {
-                  borderWidth: 3,
-                  borderColor: "black",
-                  gapWidth: 3,
+                  borderColor: "#555",
+                  borderWidth: 0,
+                  gapWidth: 10,
+                },
+                upperLabel: {
+                  show: false,
                 },
               },
               {
-                color: ["#942e38", "#aaa", "#1f9944"],
-                colorMappingBy: "value",
                 itemStyle: {
+                  borderColor: "#52AB80",
+                  borderWidth: 5,
+                  gapWidth: 5,
+                },
+                emphasis: {
+                  itemStyle: {
+                    borderColor: "#ccc",
+                  },
+                },
+              },
+              {
+                itemStyle: {
+                  borderColor: "#e8aa63",
+                  borderWidth: 5,
                   gapWidth: 1,
+                },
+                emphasis: {
+                  itemStyle: {
+                    borderColor: "#ccc",
+                  },
+                },
+              },
+              {
+                itemStyle: {
+                  borderColor: "#F0F4F3",
+                  borderWidth: 5,
+                  gapWidth: 1,
+                },
+                emphasis: {
+                  itemStyle: {
+                    borderColor: "#ccc",
+                  },
+                },
+              },
+              {
+                colorSaturation: [0.3, 0.55],
+                itemStyle: {
+                  borderWidth: 5,
+                  gapWidth: 1,
+                  borderColorSaturation: 0.7,
                 },
               },
             ],
